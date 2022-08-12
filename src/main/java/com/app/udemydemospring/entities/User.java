@@ -1,4 +1,4 @@
-package com.app.entities;
+package com.app.udemydemospring.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
