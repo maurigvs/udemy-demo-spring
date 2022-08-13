@@ -1,6 +1,7 @@
 package com.app.udemydemospring.entities;
 
 import com.app.udemydemospring.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -9,11 +10,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order_item")
+@Table(name = "orders_items")
 public class OrderItem implements Serializable {
 
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
     private Integer quantity;
     private Double price;
 
@@ -27,6 +28,7 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }
@@ -41,14 +43,6 @@ public class OrderItem implements Serializable {
 
     public void setProduct(Product product) {
         id.setProduct(product);
-    }
-
-    public OrderItemPK getId() {
-        return id;
-    }
-
-    public void setId(OrderItemPK id) {
-        this.id = id;
     }
 
     public Integer getQuantity() {
@@ -72,11 +66,11 @@ public class OrderItem implements Serializable {
         if (this == o) return true;
         if (!(o instanceof OrderItem)) return false;
         OrderItem orderItem = (OrderItem) o;
-        return Objects.equals(getId(), orderItem.getId());
+        return Objects.equals(id, orderItem.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id);
     }
 }
