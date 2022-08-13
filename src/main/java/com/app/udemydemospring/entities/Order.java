@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table(name="Orders")
+@Table(name="orders")
 public class Order implements Serializable {
 
     @Id
