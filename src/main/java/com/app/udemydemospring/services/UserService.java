@@ -2,8 +2,11 @@ package com.app.udemydemospring.services;
 
 import com.app.udemydemospring.entities.User;
 import com.app.udemydemospring.repositories.UserRepository;
+import com.app.udemydemospring.services.exceptions.DatabaseException;
 import com.app.udemydemospring.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +32,17 @@ public class UserService {
     }
 
     public void delete(Long id){
-        repository.deleteById(id);
+        try{
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new ResourceNotFoundException(id);
+
+        } catch (DataIntegrityViolationException de){
+            throw new DatabaseException(de.getMessage());
+
+        } catch (RuntimeException re){
+            re.printStackTrace();
+        }
     }
 
     public User update(Long id, User user){
